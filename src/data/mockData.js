@@ -1,3 +1,30 @@
+/**
+ * @typedef {Object} Property
+ * @property {string} id - Unique identifier
+ * @property {string} title - Property name
+ * @property {string} type - Property type (e.g., 'Resort', 'Villa')
+ * @property {string} location - City/Country
+ * @property {number} price - Base price per night
+ * @property {number} rating - Average user rating
+ * @property {number} reviews - Total review count
+ * @property {string} image - Image URL
+ * @property {string[]} tags - Sensory/Vibe tags
+ * @property {string} vibe - Primary sensory description
+ * @property {Object} sustainability - Sustainability score/metrics
+ */
+
+/**
+ * @typedef {Object} Flight
+ * @property {string} id - Flight ID
+ * @property {string} airline - Airline name
+ * @property {string} from - Departure city
+ * @property {string} to - Arrival city
+ * @property {string} departure - ISO departure time
+ * @property {string} arrival - ISO arrival time
+ * @property {number} price - Ticket price
+ * @property {string} class - Cabin class
+ */
+
 export const DESTINATIONS = [
   { 
     id: 'uluwatu',

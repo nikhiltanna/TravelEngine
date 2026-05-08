@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useGemini } from '../hooks/useGemini'
 
 function TripForm({ onSave, edit, onCancel }) {
   const [trip, setTrip] = useState(edit || { title: '', destination: '', start: '', end: '', notes: '' })
@@ -51,6 +52,15 @@ function TripForm({ onSave, edit, onCancel }) {
 export default function MyTrips({ trips, setTrips, editing, setEditing, addOrUpdate, remove, exportJSON, importJSON }) {
   const [confirmClear, setConfirmClear] = useState(false)
   const [statusMessage, setStatusMessage] = useState('')
+  const { refineItinerary, isProcessing } = useGemini()
+
+  const handleRefine = async (trip) => {
+    setStatusMessage(`Gemini is analyzing your trip to ${trip.destination}...`)
+    const refined = await refineItinerary(trip)
+    addOrUpdate(refined)
+    setStatusMessage('Trip optimized by Gemini AI')
+    setTimeout(() => setStatusMessage(''), 3000)
+  }
 
   const handleClear = () => setConfirmClear(true)
   const confirmClearYes = () => {
@@ -135,6 +145,14 @@ export default function MyTrips({ trips, setTrips, editing, setEditing, addOrUpd
                 <div className="flex gap-6 border-t border-surface-container pt-xl">
                   <button className="flex items-center gap-1 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest hover:text-primary transition-colors" onClick={() => setEditing(t)}>
                     <span className="material-symbols-outlined text-sm">edit</span> Edit
+                  </button>
+                  <button 
+                    disabled={isProcessing}
+                    className="flex items-center gap-1 text-[10px] font-bold text-secondary uppercase tracking-widest hover:opacity-80 transition-all disabled:opacity-50" 
+                    onClick={() => handleRefine(t)}
+                  >
+                    <span className="material-symbols-outlined text-sm">{isProcessing ? 'sync' : 'auto_awesome'}</span> 
+                    {isProcessing ? 'Analyzing...' : 'Refine with AI'}
                   </button>
                   <button className="flex items-center gap-1 text-[10px] font-bold text-error/70 uppercase tracking-widest hover:text-error transition-colors" onClick={() => remove(t.id)}>
                     <span className="material-symbols-outlined text-sm">delete</span> Remove

@@ -32,6 +32,12 @@ export default function Navbar({ onNavigate }) {
             <li key={item.id} role="none">
               <button
                 onClick={() => onNavigate(item.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onNavigate(item.id);
+                  }
+                }}
                 role="menuitem"
                 aria-label={`Explore ${item.label}`}
                 className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary hover:bg-primary/5 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"

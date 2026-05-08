@@ -134,6 +134,51 @@ export default function PropertyDetails({ onNavigate, formatPrice }) {
             </div>
           </div>
 
+          {/* Immersive Google Maps Integration */}
+          <section className="mt-xxxxl animate-fade-in-up">
+            <div className="flex items-center justify-between mb-lg">
+              <h2 className="font-display text-h3 text-on-surface">Location & Surroundings</h2>
+              <button className="text-xs font-bold text-primary uppercase tracking-widest hover:underline flex items-center gap-1">
+                <span className="material-symbols-outlined text-sm">directions</span> Get Directions
+              </button>
+            </div>
+            <div className="relative w-full h-[400px] rounded-[40px] overflow-hidden border border-outline-variant shadow-lg group">
+              {/* Simulated Map View with Google styling */}
+              <div className="absolute inset-0 bg-[#e5e3df]">
+                <div className="absolute inset-0 opacity-40 bg-[url('https://www.gstatic.com/images/branding/product/2x/maps_96dp.png')] bg-no-repeat bg-center grayscale"></div>
+                {/* Custom Marker */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+                  <div className="bg-primary text-white p-2 rounded-full shadow-2xl animate-bounce">
+                    <span className="material-symbols-outlined">location_on</span>
+                  </div>
+                  <div className="mt-2 bg-surface-container-lowest px-3 py-1 rounded-full border border-outline-variant shadow-md">
+                    <p className="text-[10px] font-bold text-on-surface whitespace-nowrap">{hotel.location}</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Map Controls */}
+              <div className="absolute bottom-6 right-6 flex flex-col gap-2">
+                <button className="w-10 h-10 bg-surface-container-lowest rounded-xl shadow-md flex items-center justify-center text-on-surface hover:bg-surface-container-low transition-all">
+                  <span className="material-symbols-outlined">add</span>
+                </button>
+                <button className="w-10 h-10 bg-surface-container-lowest rounded-xl shadow-md flex items-center justify-center text-on-surface hover:bg-surface-container-low transition-all">
+                  <span className="material-symbols-outlined">remove</span>
+                </button>
+              </div>
+              
+              <div className="absolute top-6 left-6">
+                <div className="bg-surface-container-lowest/90 backdrop-blur-md px-4 py-2 rounded-2xl border border-outline-variant shadow-sm">
+                  <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Nearby Gems</p>
+                  <div className="flex gap-4">
+                    <div className="flex items-center gap-1 text-xs text-on-surface"><span className="material-symbols-outlined text-sm text-primary">surfing</span> Beach (2m)</div>
+                    <div className="flex items-center gap-1 text-xs text-on-surface"><span className="material-symbols-outlined text-sm text-primary">restaurant</span> Bistro (5m)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <div className="lg:col-span-4">
             <div className="sticky top-[100px] bg-surface-container-low p-xl rounded-3xl border border-outline-variant shadow-xl">
               <div className="flex justify-between items-end mb-xl pb-xl border-b border-outline-variant">

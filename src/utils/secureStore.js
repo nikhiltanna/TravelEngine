@@ -4,7 +4,12 @@
  */
 export const secureSave = (key, data) => {
   try {
-    const sanitized = JSON.stringify(data).replace(/<script/g, '');
+    // Robust sanitization to prevent XSS in serialized data
+    const sanitized = JSON.stringify(data)
+      .replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gim, "")
+      .replace(/on\w+="[^"]*"/gim, "")
+      .replace(/on\w+='[^']*'/gim, "");
+    
     localStorage.setItem(`vd_v1_${key}`, sanitized);
   } catch (error) {
     console.error('Failed to save to secure store:', error);

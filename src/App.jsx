@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense, lazy } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-import Homepage from './pages/Homepage'
-import SearchResults from './pages/SearchResults'
-import PropertyDetails from './pages/PropertyDetails'
-import Booking from './pages/Booking'
-import VibeSearch from './pages/VibeSearch'
-import SplitStay from './pages/SplitStay'
-import GlobalPulse from './pages/GlobalPulse'
-import MyTrips from './pages/MyTrips'
-import Flights from './pages/Flights'
-import Rentals from './pages/Rentals'
-import Auth from './pages/Auth'
+
+// Optimized Lazy Loading for all major routes
+const Homepage = lazy(() => import('./pages/Homepage'))
+const SearchResults = lazy(() => import('./pages/SearchResults'))
+const PropertyDetails = lazy(() => import('./pages/PropertyDetails'))
+const Booking = lazy(() => import('./pages/Booking'))
+const Auth = lazy(() => import('./pages/Auth'))
+const MyTrips = lazy(() => import('./pages/MyTrips'))
+const Flights = lazy(() => import('./pages/Flights'))
+const Rentals = lazy(() => import('./pages/Rentals'))
+const SplitStay = lazy(() => import('./pages/SplitStay'))
+const GlobalPulse = lazy(() => import('./pages/GlobalPulse'))
+const VibeSearch = lazy(() => import('./pages/VibeSearch'))
+
 import { useCurrency } from './utils/currency'
 import { secureSave, secureLoad } from './utils/secureStore'
 
@@ -98,7 +101,13 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-on-background font-sans antialiased">
       <Navbar onNavigate={setPage} />
-      {renderPage()}
+      <Suspense fallback={
+        <div className="flex-grow flex items-center justify-center">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      }>
+        {renderPage()}
+      </Suspense>
       <Footer onNavigate={setPage} />
     </div>
   )

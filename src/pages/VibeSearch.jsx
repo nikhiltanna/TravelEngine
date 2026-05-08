@@ -3,13 +3,20 @@ import { VIBES, DESTINATIONS } from '../data/mockData'
 
 export default function VibeSearch({ onNavigate, formatPrice }) {
   const [selectedVibe, setSelectedVibe] = useState(null)
+  const [status, setStatus] = useState('')
+
+  const handleVibeSelect = (v) => {
+    setSelectedVibe(v)
+    setStatus(`Selected vibe: ${v.name}. Showing destinations with ${v.name} ambiance.`)
+  }
 
   const filteredDestinations = selectedVibe 
-    ? DESTINATIONS.filter(d => d.vibe.toLowerCase() === selectedVibe.name.toLowerCase().split(' ')[0])
+    ? DESTINATIONS.filter(d => d.vibe.toLowerCase() === selectedVibe.id)
     : DESTINATIONS
 
   return (
     <main className="flex-grow bg-surface-container-lowest animate-fade-in pb-xxl">
+      <div className="sr-only" aria-live="polite">{status}</div>
       {/* Immersive Header */}
       <section className="relative min-h-[400px] flex items-center justify-center py-xxl overflow-hidden bg-primary">
         <div className="absolute inset-0 opacity-30 mix-blend-overlay pointer-events-none">

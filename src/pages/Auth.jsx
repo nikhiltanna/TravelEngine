@@ -1,8 +1,28 @@
 import React, { useState } from 'react'
+import { auth } from '../utils/firebase'
 
 export default function Auth({ onNavigate, initialMode = 'login' }) {
   const [mode, setMode] = useState(initialMode)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+    
+    try {
+      if (mode === 'login') {
+        await auth.signInWithEmailAndPassword('user@example.com', 'password')
+      }
+      onNavigate('home')
+    } catch (err) {
+      setError('Invalid credentials. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <main className="flex-grow flex items-center justify-center bg-surface-container-low py-xxxxl px-lg animate-fade-in relative overflow-hidden">
       {/* Abstract Background Shapes */}
@@ -59,13 +79,14 @@ export default function Auth({ onNavigate, initialMode = 'login' }) {
               </p>
             </div>
 
-            <form className="space-y-lg" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-lg" onSubmit={handleSubmit}>
               {mode === 'join' && (
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest ml-1">Full Name</label>
                   <input 
                     type="text" 
                     placeholder="John Doe" 
+                    required
                     className="w-full bg-surface-container-low border border-outline-variant rounded-2xl p-4 focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none"
                   />
                 </div>
@@ -75,6 +96,7 @@ export default function Auth({ onNavigate, initialMode = 'login' }) {
                 <input 
                   type="email" 
                   placeholder="explorer@voyage.com" 
+                  required
                   className="w-full bg-surface-container-low border border-outline-variant rounded-2xl p-4 focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none"
                 />
               </div>
@@ -83,21 +105,31 @@ export default function Auth({ onNavigate, initialMode = 'login' }) {
                 <input 
                   type="password" 
                   placeholder="••••••••" 
+                  required
                   className="w-full bg-surface-container-low border border-outline-variant rounded-2xl p-4 focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none"
                 />
               </div>
 
               {mode === 'login' && (
                 <div className="flex justify-end">
-                  <button className="text-[10px] font-bold text-primary uppercase hover:underline">Forgot Password?</button>
+                  <button type="button" className="text-[10px] font-bold text-primary uppercase hover:underline">Forgot Password?</button>
                 </div>
               )}
 
+              {error && (
+                <p className="text-error text-xs font-bold px-1">{error}</p>
+              )}
+
               <button 
-                onClick={() => onNavigate('home')}
-                className="w-full bg-primary text-white font-bold py-5 rounded-2xl shadow-xl hover:bg-primary/90 transition-all active:scale-95"
+                type="submit"
+                disabled={loading}
+                className="w-full bg-primary text-white font-bold py-5 rounded-2xl shadow-xl hover:bg-primary/90 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                {mode === 'login' ? 'Sign In' : 'Create Account'}
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  mode === 'login' ? 'Sign In' : 'Create Account'
+                )}
               </button>
             </form>
 
