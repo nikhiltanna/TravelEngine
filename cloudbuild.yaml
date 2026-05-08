@@ -1,0 +1,20 @@
+# Cloud Build pipeline: install, build, sync `build/` to a GCS bucket and configure website
+# Usage: create a Trigger in Cloud Build that uses this file, and set the substitution _BUCKET to your hosting bucket name
+
+substitutions:
+  _BUCKET: "YOUR_BUCKET_NAME"
+
+steps:
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['ci']
+
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'build']
+
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['-m', 'rsync', '-r', 'build/', 'gs://$(_BUCKET)']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['storage', 'buckets', 'update', 'gs://$(_BUCKET)', '--website-main-index=index.html', '--website-not-found-page=404.html']
+
+timeout: '1200s'
