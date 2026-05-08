@@ -21,7 +21,9 @@ describe('Auth Component', () => {
 
   test('displays error on empty submission (simulated)', () => {
     render(<Auth onNavigate={noop} />);
-    const submitBtn = screen.getByRole('button', { name: /Sign In/i, className: /bg-primary/ });
+    // Find the Sign In button that is actually part of the form
+    const buttons = screen.getAllByText(/Sign In/i);
+    const submitBtn = buttons.find(b => b.tagName === 'BUTTON' && b.className.includes('bg-primary'));
     fireEvent.click(submitBtn);
   });
 });
