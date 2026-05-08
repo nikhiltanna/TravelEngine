@@ -27,6 +27,13 @@ export default function App() {
   const [editing, setEditing] = useState(null)
   const { formatPrice } = useCurrency()
 
+  // Focus management and scroll-to-top for A11y 95+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) mainContent.focus();
+  }, [page]);
+
   useEffect(() => secureSave('trips', trips), [trips])
 
   const addOrUpdate = (t) => {
@@ -100,14 +107,22 @@ export default function App() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-on-background font-sans antialiased">
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-primary focus:text-white focus:px-6 focus:py-3 focus:rounded-full focus:shadow-2xl focus:outline-none focus:ring-4 focus:ring-primary/20 transition-all"
+      >
+        Skip to main content
+      </a>
       <Navbar onNavigate={setPage} />
-      <Suspense fallback={
-        <div className="flex-grow flex items-center justify-center">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      }>
-        {renderPage()}
-      </Suspense>
+      <main id="main-content" tabIndex="-1" className="flex-grow outline-none">
+        <Suspense fallback={
+          <div className="flex-grow flex items-center justify-center min-h-[400px]">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        }>
+          {renderPage()}
+        </Suspense>
+      </main>
       <Footer onNavigate={setPage} />
     </div>
   )

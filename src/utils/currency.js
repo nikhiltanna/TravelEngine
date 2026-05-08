@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react'
 
-const EXCHANGE_RATES = {
+export const EXCHANGE_RATES = {
   USD: 1,
   INR: 83.50,
   EUR: 0.92,
   GBP: 0.79,
   JPY: 156.20
+}
+
+export const rawFormatPrice = (priceInUSD, currency = 'USD') => {
+  const rate = EXCHANGE_RATES[currency] || 1
+  const converted = priceInUSD * rate
+  
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+    maximumFractionDigits: 0
+  }).format(converted)
 }
 
 export const useCurrency = () => {
@@ -15,16 +26,7 @@ export const useCurrency = () => {
     localStorage.setItem('travel:currency', currency)
   }, [currency])
 
-  const formatPrice = (priceInUSD) => {
-    const rate = EXCHANGE_RATES[currency] || 1
-    const converted = priceInUSD * rate
-    
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currency,
-      maximumFractionDigits: 0
-    }).format(converted)
-  }
+  const formatPrice = (priceInUSD) => rawFormatPrice(priceInUSD, currency)
 
   return { currency, setCurrency, formatPrice, currencies: Object.keys(EXCHANGE_RATES) }
 }
