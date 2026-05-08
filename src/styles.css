@@ -1,0 +1,16 @@
+/* Reset and base styles - Tailwind CDN handles utilities via public/index.html */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.font-display {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Smooth page transitions */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+main {
+  animation: fadeIn 0.35s ease-out;
+}

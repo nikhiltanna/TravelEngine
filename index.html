@@ -1,12 +1,59 @@
 <!doctype html>
-<html>
+<html class="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Travel Engine</title>
+    <title>VoyageDiscovery - Travel Engine</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "primary": "#00685f",
+              "on-primary": "#ffffff",
+              "secondary": "#855300",
+              "on-secondary": "#ffffff",
+              "background": "#f5faf8",
+              "on-background": "#171d1c",
+              "surface": "#f5faf8",
+              "on-surface": "#171d1c",
+              "outline": "#6d7a77",
+              "outline-variant": "#bcc9c6",
+              "primary-container": "#008378",
+              "secondary-container": "#fea619",
+              "surface-container": "#eaefed",
+              "surface-container-low": "#f0f5f2",
+              "surface-container-high": "#e4e9e7",
+              "surface-container-highest": "#dee4e1",
+              "surface-container-lowest": "#ffffff",
+              "inverse-surface": "#2c3130",
+              "on-surface-variant": "#3d4947",
+            },
+            "fontFamily": {
+              "sans": ["Inter", "sans-serif"],
+              "display": ["Plus Jakarta Sans", "sans-serif"],
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .icon-fill {
+        font-variation-settings: 'FILL' 1;
+      }
+    </style>
   </head>
-  <body>
+  <body class="bg-background text-on-background antialiased min-h-screen">
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/index.jsx"></script>
   </body>
 </html>
